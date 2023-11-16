@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { CSMAppBar, CSMFooter } from '../components/templates';
+import { CSMAppBar, CSMFooter } from './../../components/templates';
 
 
 const Employee = () => {

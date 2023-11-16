@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { CSMLogo } from '../atoms';
+import { CSMLogo } from './../atoms';
 import { Box, } from '@mui/material';
 import { Toolbar, Button, } from "@mui/material";
 import { CSMDrawer } from './../templates';

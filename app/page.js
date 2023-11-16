@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
-import { CSMAppBar, CSMFooter } from "./components/templates";
+import {  CSMFooter,CSMAppBar } from "./../components/templates";
+import { CSMCreateCafeShop } from './../components/organisms/dialogs';
+import { CSMCardCafeShop } from './../components/organisms/cards';
 import { Typography } from "@mui/material";
-import { CSMCreateCafeShop } from './components/organisms';
-
 
 const CafeShop = () => {
   return (
     <>
       <CSMAppBar />
-      <Typography>
         CafeShop
-      </Typography>
 
       <CSMCreateCafeShop />
+
+      <CSMCardCafeShop />
 
 
       <CSMFooter />

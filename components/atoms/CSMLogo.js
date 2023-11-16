@@ -2,7 +2,7 @@
 import React from "react";
 import { makeStyles } from '@mui/styles';
 import { Avatar, Box, Typography } from "@mui/material";
-import styles from './../../../styles/typography.module.css';
+import styles from "./../../styles/typography.module.css";
 import Link from "next/link";
 
 export default function CSMLogo({ href }) {

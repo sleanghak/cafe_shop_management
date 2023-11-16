@@ -5,7 +5,7 @@ import { Box, Avatar, Typography } from '@mui/material';
 import { IconButton } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { ListItemButton, ListItemIcon, ListItemText, List, SwipeableDrawer } from '@mui/material';
-import { navItems, noUserItems } from "./../../../utils/constant/noUserMenu";
+import { navItems, noUserItems } from "./../../utils/constant/noUserMenu";
 import Link from "next/link";
 import MenuIcon from '@mui/icons-material/Menu';
 
