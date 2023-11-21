@@ -6,7 +6,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import { IconButton, Button } from '@mui/material';
 import { TextField, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import Slide from '@mui/material/Slide';
 
 
@@ -22,14 +22,18 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-export default function CSMCreateCafeShop() {
+export default function CSMEditEmployee() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [id, setID] = React.useState();
-    const [city, setCity] = React.useState();
+    const [name, setName] = React.useState();
+    const [gender, setGender] = React.useState();
     const [address, setAddress] = React.useState();
-    const [date, setDate] = React.useState();
+    const [email, setEmail] = React.useState();
+    const [phone, setPhone] = React.useState();
+    const [birth_date, setBirthDate] = React.useState();
+    const [position, setPosition] = React.useState();
 
     // function handle open dialog
     const handleClickOpen = () => {
@@ -39,46 +43,54 @@ export default function CSMCreateCafeShop() {
         setOpen(false);
     };
 
-    // function handle create cafe shop
-    async function handleCreate() {
+    // function handle eit cafe shop
+    async function handleEdit() {
         setLoading(true);
         const postData = {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                cs_id: id,
-                cs_city: city,
-                cs_address: address,
-                date: date,
+                name: name,
+                gender: gender,
+                address: address,
+                email: email,
+                phone: phone,
+                birth_date: birth_date,
+                position: position,
+                ma_id: "1",
+                emp_id: id,
             }),
         };
-        const res = await fetch(`http://localhost:3000/api/cafeshop`, postData);
+        const res = await fetch(`http://localhost:3000/api/employee`, postData);
         const response = await res.json();
         if (response["message"] == "success") {
             setLoading(false);
             setOpen(false);
+            console.log(response["message"]);
         } else {
             setLoading(false);
-            setOpen(true);
+            setOpen(false);
+            console.log(response["message"]);
         }
-        console.log(response["message"]);
         console.log(response);
     }
+
     return (
         <>
             <React.Fragment>
-                <Button onClick={handleClickOpen} variant="contained" startIcon={<AddIcon />}>
-                    Create
+                <Button color="secondary" onClick={handleClickOpen} variant="contained" startIcon={<EditIcon />}>
+                    Edit
                 </Button>
+
                 <BootstrapDialog
                     TransitionComponent={Transition}
                     onClose={handleClickOpen}
                     open={open}
                 >
                     <DialogTitle sx={{ m: 0, p: 2 }} >
-                        Create Cafe Shop
+                        Edit Employee
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
@@ -116,13 +128,25 @@ export default function CSMCreateCafeShop() {
                                         variant="outlined"
                                         fullWidth
                                         required
-                                        label="City"
-                                        name="city"
+                                        label="Name"
+                                        name="name"
                                         type="text"
-                                        onChange={(e) => setCity(e.target.value)}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </Grid>
 
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="Gender"
+                                        name="gender"
+                                        type="text"
+                                        onChange={(e) => setGender(e.target.value)}
+                                    />
+                                </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6}>
                                     <TextField
                                         size="small"
@@ -141,11 +165,51 @@ export default function CSMCreateCafeShop() {
                                         variant="outlined"
                                         fullWidth
                                         required
-                                        name="date"
-                                        type="datetime-local"
-                                        onChange={(e) => setDate(e.target.value)}
+                                        label="Email"
+                                        name="email"
+                                        type="text"
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </Grid>
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="Phone"
+                                        name="phone"
+                                        type="text"
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="Birth Date"
+                                        name="birth_date"
+                                        type="text"
+                                        onChange={(e) => setBirthDate(e.target.value)}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="Position"
+                                        name="position"
+                                        type="text"
+                                        onChange={(e) => setPosition(e.target.value)}
+                                    />
+                                </Grid>
+
                             </Grid>
 
                         </DialogContent>
@@ -154,9 +218,9 @@ export default function CSMCreateCafeShop() {
                                 type="submit"
                                 className={classes.bntCreate}
                                 autoFocus
-                                onClick={() => { handleCreate() }}
+                                onClick={() => { handleEdit() }}
                             >
-                                {loading ? "Loading..." : "Create"}
+                                {loading ? "Loading..." : "Update"}
                             </Button>
                         </DialogActions>
                     </form>

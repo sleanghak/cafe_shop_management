@@ -4,10 +4,11 @@ import { makeStyles } from "@mui/styles";
 import { styled } from '@mui/material/styles';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { IconButton, Button } from '@mui/material';
+import { TextField, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import AddIcon from '@mui/icons-material/Add';
 import Slide from '@mui/material/Slide';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -24,7 +25,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function CSMCreateReport() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
+    const [id, setID] = React.useState();
+    const [date, setDate] = React.useState();
+    const [quantity, setQuantity] = React.useState();
+    const [report_type, setReportType] = React.useState();
+    const [total_price, setTotalPrice] = React.useState();
 
+    // function handle open dialog
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -32,59 +40,150 @@ export default function CSMCreateReport() {
         setOpen(false);
     };
 
+    // function handle create cafe shop
+    async function handleCreate() {
+        setLoading(true);
+        const postData = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                re_id:id,
+                date:date,
+                quantity:quantity,
+                report_type:report_type,
+                total_price:total_price,
+            }),
+        };
+        const res = await fetch(`http://localhost:3000/api/report`, postData);
+        const response = await res.json();
+        if (response["message"] == "success") {
+            setLoading(false);
+            setOpen(false);
+        } else {
+            setLoading(false);
+            setOpen(true);
+        }
+        console.log(response["message"]);
+        console.log(response);
+    }
     return (
-        <React.Fragment>
-
-            <IconButton variant="outlined" onClick={handleClickOpen}>
-                < PersonAddAlt1Icon />
-            </IconButton>
-
-            <BootstrapDialog
-                TransitionComponent={Transition}
-                onClose={handleClickOpen}
-                open={open}
-            >
-                <DialogTitle sx={{ m: 0, p: 2 }} >
-                    Create Cafe Shop
-                </DialogTitle>
-                <IconButton
-                    aria-label="close"
-                    onClick={handleClose}
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: (theme) => theme.palette.grey[500],
-                    }}
+        <>
+            <React.Fragment>
+                <Button onClick={handleClickOpen} variant="contained" startIcon={<AddIcon />}>
+                    Create
+                </Button>
+                <BootstrapDialog
+                    TransitionComponent={Transition}
+                    onClose={handleClickOpen}
+                    open={open}
                 >
-                    <CloseIcon />
-                </IconButton>
-                <DialogContent dividers>
-                    <Typography gutterBottom>
-                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                        consectetur ac, vestibulum at eros.
-                    </Typography>
+                    <DialogTitle sx={{ m: 0, p: 2 }} >
+                        Create Report
+                    </DialogTitle>
+                    <IconButton
+                        aria-label="close"
+                        onClick={handleClose}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <form
+                        onSubmit={(e) => { e.preventDefault() }}
+                    >
+                        <DialogContent dividers>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="ID"
+                                        name="id"
+                                        type="text"
+                                        onChange={(e) => setID(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="Quantity"
+                                        name="quantity"
+                                        type="text"
+                                        onChange={(e) => setQuantity(e.target.value)}
+                                    />
+                                </Grid>
 
-                </DialogContent>
-                <DialogActions>
-                    <Button className={classes.bntCreate} autoFocus onClick={handleClose}>
-                        Create
-                    </Button>
-                </DialogActions>
-            </BootstrapDialog>
-        </React.Fragment>
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="Total Price"
+                                        name="total_price"
+                                        type="text"
+                                        onChange={(e) => setTotalPrice(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        label="Report Type"
+                                        name="report_type"
+                                        type="text"
+                                        onChange={(e) => setReportType(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        name="date"
+                                        type="datetime-local"
+                                        onChange={(e) => setDate(e.target.value)}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                type="submit"
+                                className={classes.bntCreate}
+                                autoFocus
+                                onClick={() => { handleCreate() }}
+                            >
+                                {loading ? "Loading..." : "Create"}
+                            </Button>
+                        </DialogActions>
+                    </form>
+                </BootstrapDialog>
+            </React.Fragment >
+        </>
     );
 }
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
-       
+
     },
     bntCreate: {
         textTransform: 'none',
     },
-   
-
 }));

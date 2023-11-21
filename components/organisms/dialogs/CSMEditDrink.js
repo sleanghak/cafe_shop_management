@@ -6,7 +6,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import { IconButton, Button } from '@mui/material';
 import { TextField, Grid } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import Slide from '@mui/material/Slide';
 
 
@@ -22,14 +22,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
-export default function CSMCreateCafeShop() {
+export default function CSMEditDrink() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [id, setID] = React.useState();
-    const [city, setCity] = React.useState();
-    const [address, setAddress] = React.useState();
-    const [date, setDate] = React.useState();
+    const [name, setName] = React.useState();
+    const [category, setCategory] = React.useState();
+    const [price, setPrice] = React.useState();
 
     // function handle open dialog
     const handleClickOpen = () => {
@@ -39,46 +39,51 @@ export default function CSMCreateCafeShop() {
         setOpen(false);
     };
 
-    // function handle create cafe shop
-    async function handleCreate() {
+    // function handle eit cafe shop
+    async function handleEdit() {
         setLoading(true);
         const postData = {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                cs_id: id,
-                cs_city: city,
-                cs_address: address,
-                date: date,
+                name: name,
+                category: category,
+                price: price,
+                or_id: "1",
+                emp_id:"1",
+                dr_id: id,
             }),
         };
-        const res = await fetch(`http://localhost:3000/api/cafeshop`, postData);
+        const res = await fetch(`http://localhost:3000/api/drink`, postData);
         const response = await res.json();
         if (response["message"] == "success") {
             setLoading(false);
             setOpen(false);
+            console.log(response["message"]);
         } else {
             setLoading(false);
-            setOpen(true);
+            setOpen(false);
+            console.log(response["message"]);
         }
-        console.log(response["message"]);
         console.log(response);
     }
+
     return (
         <>
             <React.Fragment>
-                <Button onClick={handleClickOpen} variant="contained" startIcon={<AddIcon />}>
-                    Create
+                <Button color="secondary" onClick={handleClickOpen} variant="contained" startIcon={<EditIcon />}>
+                    Edit
                 </Button>
+
                 <BootstrapDialog
                     TransitionComponent={Transition}
                     onClose={handleClickOpen}
                     open={open}
                 >
                     <DialogTitle sx={{ m: 0, p: 2 }} >
-                        Create Cafe Shop
+                        Edit Drink
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
@@ -106,6 +111,7 @@ export default function CSMCreateCafeShop() {
                                         label="ID"
                                         name="id"
                                         type="text"
+                                        value={id}
                                         onChange={(e) => setID(e.target.value)}
                                     />
                                 </Grid>
@@ -116,10 +122,11 @@ export default function CSMCreateCafeShop() {
                                         variant="outlined"
                                         fullWidth
                                         required
-                                        label="City"
-                                        name="city"
+                                        label="Name"
+                                        name="name"
                                         type="text"
-                                        onChange={(e) => setCity(e.target.value)}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </Grid>
 
@@ -129,10 +136,11 @@ export default function CSMCreateCafeShop() {
                                         variant="outlined"
                                         fullWidth
                                         required
-                                        label="Address"
-                                        name="address"
+                                        label="Category"
+                                        name="category"
                                         type="text"
-                                        onChange={(e) => setAddress(e.target.value)}
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -141,9 +149,11 @@ export default function CSMCreateCafeShop() {
                                         variant="outlined"
                                         fullWidth
                                         required
-                                        name="date"
-                                        type="datetime-local"
-                                        onChange={(e) => setDate(e.target.value)}
+                                        name="price"
+                                        label="Price"
+                                        type="text"
+                                        value={price}
+                                        onChange={(e) => setPrice(e.target.value)}
                                     />
                                 </Grid>
                             </Grid>
@@ -154,9 +164,9 @@ export default function CSMCreateCafeShop() {
                                 type="submit"
                                 className={classes.bntCreate}
                                 autoFocus
-                                onClick={() => { handleCreate() }}
+                                onClick={() => { handleEdit() }}
                             >
-                                {loading ? "Loading..." : "Create"}
+                                {loading ? "Loading..." : "Update"}
                             </Button>
                         </DialogActions>
                     </form>

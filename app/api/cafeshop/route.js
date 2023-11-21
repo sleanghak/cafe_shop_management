@@ -21,9 +21,9 @@ export async function POST(request) {
         "INSERT INTO `cafeshop`(`cs_id`, `cs_city`, `cs_address`, `date`) VALUES (?,?,?,?)",
       values: [cs_id, cs_city, cs_address, date],
     });
-    const result = createCafeshop.affectedRows;
+    // const result = createCafeshop.affectedRows;
     let message = "";
-    if (result) {
+    if (createCafeshop) {
       message = "success";
     } else {
       message = "error";
