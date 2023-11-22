@@ -6,7 +6,7 @@ import { CSMFooter, CSMAppBar } from "./../components/templates";
 import { CSMCreateCafeShop, CSMEditCafeShop } from './../components/organisms/dialogs';
 import { CSMTableCafeShop } from './../components/organisms/table';
 import { Stack, Box, Grid } from "@mui/material";
-import { Typography,  } from "@mui/material";
+import { Typography, } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 // imprt components table
 import { Table, TableBody, TableCell, Paper } from '@mui/material';
@@ -14,8 +14,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
+// imprt components Snackbar
+import { Button, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 const CafeShop = () => {
   const classes = useStyles();
+
+  const [deletedSuccess, setDeletedSuccess] = React.useState(false);
+  const [deletedError, setDeletedError] = React.useState(false);
+  const handleDeletedSuccess = () => {
+    setDeletedSuccess(false);
+  };
+
+  const handleDeletedError = () => {
+    setDeletedError(false);
+  };
+
   // function handle get data 
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data, error } = useSWR("http://localhost:3000/api/cafeshop", fetcher);
@@ -38,8 +58,12 @@ const CafeShop = () => {
     const response = await res.json();
     if (response["message"] == "success") {
       console.log(response["message"]);
+      setDeletedSuccess(true);
+      setDeletedError(false);
     } else {
       console.log(response["message"]);
+      setDeletedError(true);
+      setDeletedSuccess(false);
     }
     console.log(response);
   }
@@ -93,6 +117,18 @@ const CafeShop = () => {
         </Grid>
       </Grid >
       <CSMFooter />
+      {/* Snackbar deleted success */}
+      <Snackbar open={deletedSuccess} autoHideDuration={6000} onClose={handleDeletedSuccess}>
+        <Alert onClose={handleDeletedSuccess} severity="success" sx={{ width: '100%' }}>
+          Delete Success!
+        </Alert>
+      </Snackbar>
+      {/* Snackbar deleted unsuccess */}
+      <Snackbar open={deletedError} autoHideDuration={6000} onClose={handleDeletedError}>
+        <Alert onClose={handleDeletedError} severity="error" sx={{ width: '100%' }}>
+          Delete Unsuccess!
+        </Alert>
+      </Snackbar>
     </>
   );
 }

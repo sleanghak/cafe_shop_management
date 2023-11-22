@@ -10,6 +10,15 @@ import AddIcon from '@mui/icons-material/Add';
 import Slide from '@mui/material/Slide';
 
 
+// imprt components Snackbar
+import { Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -31,6 +40,14 @@ export default function CSMCreateDrink() {
     const [category, setCategory] = React.useState();
     const [price, setPrice] = React.useState();
 
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const handleSuccess = () => {
+        setSuccess(false);
+    };
+    const handleError = () => {
+        setError(false);
+    };
     // function handle open dialog
     const handleClickOpen = () => {
         setOpen(true);
@@ -48,12 +65,12 @@ export default function CSMCreateDrink() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                dr_id: id,
+                dr_id: "",
                 name: name,
                 category: category,
                 price: price,
-                or_id: "1",
-                emp_id:"1",
+                or_id: "",
+                emp_id: "",
             }),
         };
         const res = await fetch(`http://localhost:3000/api/drink`, postData);
@@ -61,9 +78,13 @@ export default function CSMCreateDrink() {
         if (response["message"] == "success") {
             setLoading(false);
             setOpen(false);
+            setError(false);
+            setSuccess(true);
         } else {
             setLoading(false);
             setOpen(true);
+            setSuccess(false);
+            setError(true);
         }
         console.log(response["message"]);
         console.log(response);
@@ -99,7 +120,7 @@ export default function CSMCreateDrink() {
                     >
                         <DialogContent dividers>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                {/* <Grid item xs={12} sm={12} md={6} lg={6}>
                                     <TextField
                                         size="small"
                                         variant="outlined"
@@ -110,7 +131,7 @@ export default function CSMCreateDrink() {
                                         type="text"
                                         onChange={(e) => setID(e.target.value)}
                                     />
-                                </Grid>
+                                </Grid> */}
 
                                 <Grid item xs={12} sm={12} md={6} lg={6}>
                                     <TextField
@@ -149,7 +170,7 @@ export default function CSMCreateDrink() {
                                         onChange={(e) => setPrice(e.target.value)}
                                     />
                                 </Grid>
-                                
+
                             </Grid>
 
                         </DialogContent>
@@ -166,6 +187,18 @@ export default function CSMCreateDrink() {
                     </form>
                 </BootstrapDialog>
             </React.Fragment >
+            {/* Snackbar deleted success */}
+            <Snackbar open={success} autoHideDuration={6000} onClose={handleSuccess}>
+                <Alert onClose={handleSuccess} severity="success" sx={{ width: '100%' }}>
+                    Create Success!
+                </Alert>
+            </Snackbar>
+            {/* Snackbar deleted unsuccess */}
+            <Snackbar open={error} autoHideDuration={6000} onClose={handleError}>
+                <Alert onClose={handleError} severity="error" sx={{ width: '100%' }}>
+                    Create Unsuccess!
+                </Alert>
+            </Snackbar>
         </>
     );
 }

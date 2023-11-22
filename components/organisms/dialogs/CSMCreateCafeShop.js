@@ -9,6 +9,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import Slide from '@mui/material/Slide';
 
+// imprt components Snackbar
+import { Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -31,6 +39,15 @@ export default function CSMCreateCafeShop() {
     const [address, setAddress] = React.useState();
     const [date, setDate] = React.useState();
 
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const handleSuccess = () => {
+        setSuccess(false);
+    };
+    const handleError = () => {
+        setError(false);
+    };
+
     // function handle open dialog
     const handleClickOpen = () => {
         setOpen(true);
@@ -48,7 +65,7 @@ export default function CSMCreateCafeShop() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                cs_id: id,
+                cs_id: "",
                 cs_city: city,
                 cs_address: address,
                 date: date,
@@ -59,9 +76,13 @@ export default function CSMCreateCafeShop() {
         if (response["message"] == "success") {
             setLoading(false);
             setOpen(false);
+            setError(false);
+            setSuccess(true);
         } else {
             setLoading(false);
-            setOpen(true);
+            setOpen(false);
+            setSuccess(false);
+            setError(true);
         }
         console.log(response["message"]);
         console.log(response);
@@ -97,7 +118,7 @@ export default function CSMCreateCafeShop() {
                     >
                         <DialogContent dividers>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                {/* <Grid item xs={12} sm={12} md={6} lg={6}>
                                     <TextField
                                         size="small"
                                         variant="outlined"
@@ -108,7 +129,7 @@ export default function CSMCreateCafeShop() {
                                         type="text"
                                         onChange={(e) => setID(e.target.value)}
                                     />
-                                </Grid>
+                                </Grid> */}
 
                                 <Grid item xs={12} sm={12} md={6} lg={6}>
                                     <TextField
@@ -162,6 +183,18 @@ export default function CSMCreateCafeShop() {
                     </form>
                 </BootstrapDialog>
             </React.Fragment >
+            {/* Snackbar deleted success */}
+            <Snackbar open={success} autoHideDuration={6000} onClose={handleSuccess}>
+                <Alert onClose={handleSuccess} severity="success" sx={{ width: '100%' }}>
+                    Create Success!
+                </Alert>
+            </Snackbar>
+            {/* Snackbar deleted unsuccess */}
+            <Snackbar open={error} autoHideDuration={6000} onClose={handleError}>
+                <Alert onClose={handleError} severity="error" sx={{ width: '100%' }}>
+                    Create Unsuccess!
+                </Alert>
+            </Snackbar>
         </>
     );
 }

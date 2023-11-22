@@ -1,8 +1,10 @@
+"use client";
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import WineBarIcon from '@mui/icons-material/WineBar';
-import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'; //course
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded'; //about
-import RecentActorsRoundedIcon from '@mui/icons-material/RecentActorsRounded'; //contact
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ReportIcon from '@mui/icons-material/Report';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 const navItems = [
   // {
@@ -29,27 +31,27 @@ const noUserItems = [
   {
     label: 'Drink',
     icon: <WineBarIcon />,
-    path: '/',
+    path: '/drink',
   },
   {
-    label: "Student's Project",
-    icon: <SchoolRoundedIcon />,
-    path: '/',
+    label: "Order",
+    icon: <ShoppingCartIcon />,
+    path: '/order',
   },
   {
-    label: 'About',
-    icon: <InfoRoundedIcon />,
-    path: '/',
+    label: 'Employee',
+    icon: <PeopleAltIcon />,
+    path: '/employee',
   },
   {
-    label: 'Contact',
-    icon: <RecentActorsRoundedIcon />,
-    path: '/',
+    label: 'Manager',
+    icon: <ManageAccountsIcon />,
+    path: '/manager',
   },
   {
-    label: 'Contact',
-    icon: <RecentActorsRoundedIcon />,
-    path: '/',
+    label: 'Report',
+    icon: <ReportIcon />,
+    path: '/report',
   },
 ];
 export {

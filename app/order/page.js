@@ -14,10 +14,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
+// imprt components Snackbar
+import { Button, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Order = () => {
     const classes = useStyles();
+
+    const [deletedSuccess, setDeletedSuccess] = React.useState(false);
+    const [deletedError, setDeletedError] = React.useState(false);
+    const handleDeletedSuccess = () => {
+        setDeletedSuccess(false);
+    };
+
+    const handleDeletedError = () => {
+        setDeletedError(false);
+    };
+
     // function handle get data 
     const fetcher = (url) => fetch(url).then((res) => res.json());
     const { data, error } = useSWR("http://localhost:3000/api/table_order", fetcher);
@@ -40,8 +57,12 @@ const Order = () => {
         const res = await fetch(`http://localhost:3000/api/table_order`, postData);
         const response = await res.json();
         if (response["message"] == "success") {
+            setDeletedSuccess(true);
+            setDeletedError(false);
             console.log(response["message"]);
         } else {
+            setDeletedError(true);
+            setDeletedSuccess(false);
             console.log(response["message"]);
         }
         console.log(response);
@@ -99,6 +120,18 @@ const Order = () => {
                 </Grid>
             </Grid >
             <CSMFooter />
+             {/* Snackbar deleted success */}
+             <Snackbar open={deletedSuccess} autoHideDuration={6000} onClose={handleDeletedSuccess}>
+                <Alert onClose={handleDeletedSuccess} severity="success" sx={{ width: '100%' }}>
+                    Delete Success!
+                </Alert>
+            </Snackbar>
+            {/* Snackbar deleted unsuccess */}
+            <Snackbar open={deletedError} autoHideDuration={6000} onClose={handleDeletedError}>
+                <Alert onClose={handleDeletedError} severity="error" sx={{ width: '100%' }}>
+                    Delete Unsuccess!
+                </Alert>
+            </Snackbar>
         </>
     );
 }

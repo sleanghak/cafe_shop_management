@@ -9,6 +9,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Slide from '@mui/material/Slide';
 
+// imprt components Snackbar
+import { Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -31,7 +38,14 @@ export default function CSMEditReport() {
     const [quantity, setQuantity] = React.useState();
     const [report_type, setReportType] = React.useState();
     const [total_price, setTotalPrice] = React.useState();
-
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const handleSuccess = () => {
+        setSuccess(false);
+    };
+    const handleError = () => {
+        setError(false);
+    };
     // function handle open dialog
     const handleClickOpen = () => {
         setOpen(true);
@@ -61,10 +75,14 @@ export default function CSMEditReport() {
         if (response["message"] == "success") {
             setLoading(false);
             setOpen(false);
+            setError(false);
+            setSuccess(true);
             console.log(response["message"]);
         } else {
             setLoading(false);
             setOpen(false);
+            setSuccess(false);
+            setError(true);
             console.log(response["message"]);
         }
         console.log(response);
@@ -177,6 +195,17 @@ export default function CSMEditReport() {
                     </form>
                 </BootstrapDialog>
             </React.Fragment >
+            <Snackbar open={success} autoHideDuration={6000} onClose={handleSuccess}>
+                <Alert onClose={handleSuccess} severity="success" sx={{ width: '100%' }}>
+                    Edit Success!
+                </Alert>
+            </Snackbar>
+            {/* Snackbar deleted unsuccess */}
+            <Snackbar open={error} autoHideDuration={6000} onClose={handleError}>
+                <Alert onClose={handleError} severity="error" sx={{ width: '100%' }}>
+                    Edit Unsuccess!
+                </Alert>
+            </Snackbar>
         </>
     );
 }
