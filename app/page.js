@@ -6,7 +6,7 @@ import { CSMFooter, CSMAppBar } from "./../components/templates";
 import { CSMCreateCafeShop, CSMEditCafeShop } from './../components/organisms/dialogs';
 import { CSMTableCafeShop } from './../components/organisms/table';
 import { Stack, Box, Grid } from "@mui/material";
-import { Typography, Button } from "@mui/material";
+import { Typography,  } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 // imprt components table
 import { Table, TableBody, TableCell, Paper } from '@mui/material';

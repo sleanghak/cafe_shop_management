@@ -1,31 +1,33 @@
 "use client";
-import * as React from 'react';
-import {Snackbar,MuiAlert} from '@mui/material';
-
+import React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function CSMSnackbarError({ children }) {
-  const [snackbar, setSnackbar] = React.useState(false);
+export default function CSMSnackbarError({children}) {
+  const [open, setOpen] = React.useState(true);
 
-  const handleClickSnackbar = () => {
-    setSnackbar(true);
+  const handleClick = () => {
+    setOpen(true);
   };
 
-  const handleCloseSnackbar = (event, reason) => {
+  const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
-    setSnackbar(false);
+    setOpen(false);
   };
 
   return (
     <>
-      <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity="error">{children}</Alert>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {children}
+        </Alert>
       </Snackbar>
     </>
   );
