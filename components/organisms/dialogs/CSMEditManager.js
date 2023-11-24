@@ -39,7 +39,6 @@ export default function CSMEditManager() {
     const [email, setEmail] = React.useState();
     const [phone, setPhone] = React.useState();
     const [birth_date, setBirthDate] = React.useState();
-    const [position, setPosition] = React.useState();
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const handleSuccess = () => {

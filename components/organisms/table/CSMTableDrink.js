@@ -60,7 +60,7 @@ const CSMTableDrink = ({ dr_id, name, category, price, onDelete }) => {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText >
-                            Are you sure you want to delete this cafe shop?
+                            Are you sure you want to delete this drink?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

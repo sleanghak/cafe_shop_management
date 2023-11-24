@@ -60,7 +60,7 @@ const CSMTableReport = ({ re_id, quantity, total_price, report_type, date, onDel
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText >
-                            Are you sure you want to delete this cafe shop?
+                            Are you sure you want to delete this report?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

@@ -64,7 +64,7 @@ const CSMTableManager = ({ ma_id, name, gender, address, email, phone, birth_dat
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText >
-                            Are you sure you want to delete this cafe shop?
+                            Are you sure you want to delete this manager?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

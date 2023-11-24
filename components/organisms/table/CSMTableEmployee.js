@@ -67,7 +67,7 @@ const CSMTableEmployee = ({ emp_id, name, gender, address, email, phone, birth_d
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText >
-                            Are you sure you want to delete this cafe shop?
+                            Are you sure you want to delete this employee?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

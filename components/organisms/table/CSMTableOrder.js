@@ -63,7 +63,7 @@ const CSMTableOrder = ({ or_id, name, quantity, price, date, total_price, onDele
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText >
-                            Are you sure you want to delete this cafe shop?
+                            Are you sure you want to delete this order?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
